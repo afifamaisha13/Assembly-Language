@@ -1,0 +1,27 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    star DB '*'      ; Define the star character
+
+.CODE
+MAIN PROC
+    ; Initialize data segment
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Set up a counter (80 stars)
+    MOV CX, 80       ; Set loop counter to 80
+
+LOOP_START:
+    MOV DL, '*'      ; Load the star character into DL
+    MOV AH, 2        ; Function to display the character in DL
+    INT 21H          ; Display the character
+
+    LOOP LOOP_START  ; Decrement CX and loop if CX != 0
+
+    ; Exit program
+    MOV AH, 4CH
+    INT 21H
+
+MAIN ENDP
+END MAIN
