@@ -1,0 +1,50 @@
+.model small
+.stack 100h
+.data
+a db 'My name is Afifa. My ID is:IT22005',0ah,0dh,'$'
+.code
+main proc
+    mov ax,@data
+    mov ds,ax 
+    
+    lea dx,a
+    mov ah,09h
+    int 21h
+    
+    mov ax,-5
+    cmp ax,0
+    jl negetive
+    jg positive
+    je zero
+    
+  negetive:
+    mov ah,2
+    mov bx,045
+    mov dx,bx
+    int 21h
+    mov bx,1
+    add bx,48
+    mov dx,bx
+    int 21h
+    jmp exit
+    
+  positive:
+    mov ah,2
+    mov bx,1
+    mov dx,bx
+    add dx,48
+    int 21h
+    jmp exit 
+    
+  zero:
+    mov ah,2
+    mov bx,0
+    mov dx,bx
+    add dx,48
+    int 21h
+    
+    exit:
+    mov ah,4ch
+    int 21h
+    main endp
+end main
