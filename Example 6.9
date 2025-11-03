@@ -1,0 +1,52 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    MSG1 DB 'Enter a line of text: $'
+    MSG2 DB 'Number of characters: $'
+    COUNT DB 0   ; Stores the character count (as a byte, enough for small inputs)
+
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+
+    ; Display prompt
+    LEA DX, MSG1
+    MOV AH, 09H
+    INT 21H
+
+    ; Initialize count (already done in .DATA section)
+    MOV COUNT, 0
+
+READ_INPUT:
+    MOV AH, 01H  ; Read character from keyboard
+    INT 21H      ; Character is now in AL
+
+    CMP AL, 0DH  ; Check for Carriage Return (Enter key)
+    JE INPUT_DONE
+
+    ; Character is not CR, so increment count
+    INC COUNT
+    JMP READ_INPUT  ; Go back and read the next character
+
+INPUT_DONE:
+    ; Display the count message
+    LEA DX, MSG2
+    MOV AH, 09H
+    INT 21H
+
+    ; Display the count (in ASCII)
+    MOV AL, COUNT
+    MOV DL, AL 
+    ADD DL, '0'    ; Convert count to ASCII character
+        ; Move the character to DL for display
+    MOV AH, 02H    ; Function to display character in DL
+    INT 21H        ; Display the character
+
+    ; Terminate program
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+
+END MAIN
