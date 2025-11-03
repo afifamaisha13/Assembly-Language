@@ -1,0 +1,28 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+.CODE
+MAIN PROC
+    MOV AH, 1 ;prepare to .read· 
+    INT 21H 
+    
+    CMP AL,'y' ;char J 'y'? 
+    JE THEN ;yes, go to display it
+    CMP AL,'Y' ;char ~ 'Y'? 
+    JE THEN ;yes, go to display it 
+    JMP ELSE ;no, termina~e 
+    
+    
+    THEN: 
+         
+         MOV DL,AL ;get char 
+         MOV AH,2 ;prepare to display 
+         INT 21H ;display it 
+         JMP ELSE 
+         
+         
+    ELSE:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
