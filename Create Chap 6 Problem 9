@@ -1,47 +1,45 @@
-.model small
-.stack 100h
-.data
-m db 'My name is Afifa. My ID is:IT22005',0ah,0dh,'$'
-n db 0ah,0dh,'$'
-a db 'Enter three initials:$'
-c1 db ?,0ah,0dh
-c2 db ?,0ah,0dh
-c3 db ?,0ah,0dh,'$'
-.code
-main proc
-    mov ax,@data
-    mov ds,ax
-    
-    lea dx,m
-    mov ah,09h
-    int 21h 
-    
-    lea dx,a
-    mov ah,09h
-    int 21h
-    
-    mov ah,1
-    int 21h
-    mov c1,al
-    
-    int 21h
-    mov c2,al
-    
-    int 21h
-    mov c3,al
-    
-    lea dx,n
-    mov ah,09h
-    int 21h
-    
-    lea dx,c1
-    mov ah,09h
-    int 21h
-    
-    exit:
-    mov ah,4ch
-    int 21h
-    main endp
-end main
-    
-    
+.MODEL SMALL
+.CODE
+MAIN PROC
+
+;BH counter (10 char per line)
+
+MOV BH,0
+MOV AH,2
+MOV CX,7FH ; 127 char.
+MOV DL,80H ;1ST letter
+MOV BL,80H ;Initializes the BL register with 80H
+            ;to store the current character code.
+
+
+
+
+CONTINUE: MOV DL,BL
+INT 21H
+DEC CX
+INC DL
+MOV BL,DL
+MOV DL,' ' ;blank space
+INT 21H
+INC BH
+CMP BH,10
+JE COUNT
+CMP CX,0
+JNE CONTINUE ;is letter finished?
+JMP out_
+
+
+COUNT: MOV BH,0 ;start again counter
+MOV DL,0AH ;enter
+INT 21H
+MOV DL,0DH
+INT 21H
+JMP CONTINUE
+Out_: 
+
+
+  MOV AH,4CH
+INT 21H
+
+MAIN ENDP
+END MAIN
