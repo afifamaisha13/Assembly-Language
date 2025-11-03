@@ -1,0 +1,30 @@
+.model small
+.stack 100h
+.data
+.code
+
+main proc
+
+    
+    mov ah, 01h
+    int 21h
+
+    
+    cmp al, 'A'
+    jl end_if ;jump
+    cmp al, 'Z'
+    jg end_if  ;jump
+    
+
+    
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+end_if:
+    
+    mov ah, 4ch
+    int 21h
+
+main endp
+end main
