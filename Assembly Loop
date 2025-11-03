@@ -1,0 +1,32 @@
+.model small
+.stack 100h
+.data
+
+msg db 'Hello World',0ah,0dh,'$'
+.code
+main proc
+    
+    mov ax,@data
+    mov ds,ax
+    
+    mov cx,3 ;count how many time loop will run
+    ;the counter value will always be stored in
+    ; cx register
+    
+    
+  print:
+    lea dx,msg
+    mov ah,9
+    int 21h
+    
+   
+ loop print ;loop is the command to run the loop
+ ;and it will decrease the value of cx by 1
+ 
+ 
+ mov ah,4ch
+ int 21h
+ 
+ main endp
+end main
+    
